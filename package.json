@@ -1,0 +1,20 @@
+{
+  "name": "widget-node",
+  "version": "1.0.0",
+  "description": "widget node app",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node app.js"
+  },
+  "author": "prajita",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongodb": "^4.12.1",
+    "mongoose": "^6.8.0"
+  }
+}
