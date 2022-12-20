@@ -65,7 +65,6 @@ app.get('/api/widgets/:_id', async function (req, res) {
 app.put('/api/widgets/:_id', async function (req, res) {
     await Widget.updateWidget(req.params._id, req.body, {new:true}, (widget, err) => {
         if(widget) {
-            console.log("succesfully updated widget")
             res.send(widget);
         }else {
             res.send(err);
@@ -96,7 +95,6 @@ app.delete('/api/widgets/:_id', async function (req, res) {
 app.put('/api/widgets/:status/:_id', async function (req, res) {
     await Widget.updateWidgetStatus(req.params._id,req.params.status,{new:true}, (widget, err) => {
         if(widget) {
-            console.log("succesfully updated widget")
             res.send(widget);
         }else {
             res.send(err);

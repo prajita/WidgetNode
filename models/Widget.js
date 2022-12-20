@@ -30,6 +30,10 @@ var WidgetSchema = mongoose.Schema({
     publishedOn:{
         type: String,
         required: false
+    },
+    rejectedOn:{
+        type: String,
+        required: false
     }
 })
 var Widget = mongoose.model('Widget', WidgetSchema, 'Widgets');
@@ -66,17 +70,26 @@ module.exports.updateWidget = async function (id, WidgetObj, options, cb) {
 
 module.exports.updateWidgetStatus = async function (id, status, options, cb){
     var query = { _id: id };
-    let approvedOn = "", publishedOn = "";
     if(status === "approved"){
-        approvedOn= fetchDate()
+        approvedOn = fetchDate();
+        var update = {
+            status ,
+            approvedOn,
+        }
+    }else if(status === "published"){
+        publishedOn = fetchDate();
+        var update = {
+            status ,
+            publishedOn
+        }
     }else{
-        publishedOn=fetchDate();
+        rejectedOn = fetchDate();
+        var update = {
+            status ,
+            rejectedOn
+        }
     }
-    var update = {
-        status ,
-        approvedOn,
-        publishedOn
-    }
+    
     let data=await Widget.findByIdAndUpdate(query, update, options)
     cb(data);
 }
