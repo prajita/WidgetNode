@@ -1,12 +1,16 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var dotenv= require('dotenv');
+var jwt = require('jsonwebtoken');
 
 var cors = require('cors');
 const path = require("path");
-const port = process.env.PORT || 3005;
+dotenv.config({path:"/Users/prajitas/widget-node/.env"})
+const port = 3007;
 
 Widget = require('./models/Widget');
+User = require('./models/User');
 const url = 'mongodb+srv://prajita:mamon1992@cluster0.pu3knii.mongodb.net/WidgetDb';
 mongoose.set('strictQuery', true);
 mongoose.connect(url, { useNewUrlParser: true });
@@ -40,6 +44,30 @@ function init() {
       });
 }
 
+//login
+app.post('/login', async function(req, res){
+    const {email, password} = req.body;
+    console.log("ghere:::", email)
+    await User.getUserByEmail(email, function (err, user) {
+        console.log("err1", err)
+        if (err) {
+            res.status(400).send({error: "Oops !!!email is not valid"});
+        } else {
+            const userObj = user.length > 0 ? user[0] : null;
+            console.log("user found: ",userObj);
+            if(!userObj){
+                res.status(400).send({error: "Oops !!!email is not valid"});
+            }else if(userObj.password!==password){
+                res.status(400).send({error: "hey !!! password did not match"});
+            }else{
+                const jwtToken =jwt.sign({"id": userObj.id , "email": userObj.email}, process.env.JWT_SECRET);
+                res.status(200).send({message: "Welcome back !", user: userObj, token: jwtToken});
+            }
+        }
+    });
+    
+
+})
 
 //apis for widgets
 app.get('/api/widgets', async function (req, res) {
