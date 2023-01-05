@@ -69,14 +69,32 @@ app.post('/login', async function(req, res){
 })
 
 //apis for widgets
-app.get('/api/widgets', async function (req, res) {
-    await Widget.getWidgets(function (err, widgets) {
+
+app.get("/api/widgets", async function (req, res) {
+
+    const page = parseInt(req.query.page);
+    const limit = parseInt(req.query.limit);
+
+    await Widget.getWidgets(function (err, datalist) {
         if (err) {
             throw err;
         } else {
-            res.send(widgets);
+            if(page && limit && limit !== 0 && page !== 0){
+                //send limited widgets
+                const startIndex = (page-1) * limit;
+                const endIndex = page * limit;
+                const results = {};
+                const widgets = datalist.slice(startIndex, endIndex);
+                results.totalCount = datalist.length;
+                results.widgets = widgets;
+                res.send(results);
+            }else{
+                //no query param so send all widgets
+                res.send({widgets: datalist, totalCount: datalist.length});
+            }
         }
     })
+    
 });
 
 app.get('/api/widgets/:_id', async function (req, res) {

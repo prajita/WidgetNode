@@ -1,0 +1,3 @@
+GET http://localhost:3000/api/widgets
+
+//GET http://localhost:3000/api/widgets/limited?page=2&limit=8
