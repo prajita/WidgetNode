@@ -1,4 +1,5 @@
 var express = require('express');
+
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var dotenv= require('dotenv');
@@ -7,7 +8,7 @@ var jwt = require('jsonwebtoken');
 var cors = require('cors');
 const path = require("path");
 dotenv.config({path:"/Users/prajitas/widget-node/.env"})
-const port = 3007;
+const port = 3000;
 
 Widget = require('./models/Widget');
 User = require('./models/User');
