@@ -48,9 +48,7 @@ function init() {
 //login
 app.post('/login', async function(req, res){
     const {email, password} = req.body;
-    console.log("ghere:::", email)
     await User.getUserByEmail(email, function (err, user) {
-        console.log("err1", err)
         if (err) {
             res.status(400).send({error: "Oops !!!email is not valid"});
         } else {
