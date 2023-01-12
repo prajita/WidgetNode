@@ -59,7 +59,7 @@ app.post('/login', async function(req, res){
             }else if(userObj.password!==password){
                 res.status(400).send({error: "hey !!! password did not match"});
             }else{
-                const jwtToken =jwt.sign({"id": userObj.id , "email": userObj.email}, process.env.JWT_SECRET);
+                const jwtToken =jwt.sign({"id": userObj.id , "email": userObj.email}, `${process.env.JWT_SECRET}`);
                 res.status(200).send({message: "Welcome back !", user: userObj, token: jwtToken});
             }
         }
